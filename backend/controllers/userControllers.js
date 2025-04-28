@@ -80,7 +80,7 @@ export const followAndUnfollowUser = TryCatch(async (req, res) => {
     res.json({
       message: "User unfollowed",
     });
-  } else{
+  } else {
     loggedInUser.following.push(user._id);
     user.followers.push(loggedInUser._id);
 
@@ -91,4 +91,11 @@ export const followAndUnfollowUser = TryCatch(async (req, res) => {
       message: "User followed",
     });
   }
+});
+
+export const logOutUser = TryCatch(async (req, res) => {
+  res.cookie("token", "", { maxAge: 0 });
+  res.json({
+    message: "Logged out successfully",
+  });
 });
