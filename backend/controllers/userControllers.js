@@ -53,3 +53,42 @@ export const userProfile = TryCatch(async (req, res) => {
   const user = await User.findById(req.params.id).select("-password");
   res.json(user);
 });
+
+export const followAndUnfollowUser = TryCatch(async (req, res) => {
+  const user = await User.findById(req.params.id);
+  const loggedInUser = await User.findById(req.user._id);
+  if (!user) {
+    return res.status(400).json({
+      message: "No user with this id",
+    });
+  }
+  if (user._id.toString() === loggedInUser._id.toString()) {
+    return res.status(400).json({
+      message: "You can't follow yourself",
+    });
+  }
+  if (user.followers.includes(loggedInUser._id)) {
+    const indexFollowing = loggedInUser.following.indexOf(user._id);
+    const indexFollowers = user.followers.indexOf(loggedInUser._id);
+
+    loggedInUser.following.splice(indexFollowing, 1);
+    user.followers.splice(indexFollowers, 1);
+
+    await loggedInUser.save();
+    await user.save();
+
+    res.json({
+      message: "User unfollowed",
+    });
+  } else{
+    loggedInUser.following.push(user._id);
+    user.followers.push(loggedInUser._id);
+
+    await loggedInUser.save();
+    await user.save();
+
+    res.json({
+      message: "User followed",
+    });
+  }
+});
