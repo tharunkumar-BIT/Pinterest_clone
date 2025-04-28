@@ -2,6 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv';
 import connectDb from './database/db.js';
 import userRoutes from './routes/userRoutes.js'
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ const PORT = process.env.PORT;
 //     res.send("Server working");
 // });
 app.use(express.json());
+app.use(cookieParser());
 app.use("/api/user", userRoutes);
 
 app.listen(PORT, ()=> {
