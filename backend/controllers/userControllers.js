@@ -1,6 +1,7 @@
 import { User } from "../models/userModels.js";
 import bcrypt from "bcrypt";
 import TryCatch from "../utils/TryCatch.js";
+import generateToken from "../utils/generateToken.js";
 
 export const registerUser = TryCatch(async (req, res) => {
   const { name, email, password } = req.body;
@@ -15,6 +16,7 @@ export const registerUser = TryCatch(async (req, res) => {
     email,
     password: hashPassword,
   });
+  generateToken(user._id, res);
   res.status(201).json({
     user,
     message: "User Registered",
@@ -35,6 +37,7 @@ export const loginUser = TryCatch(async (req, res) => {
       message: "Wrong Password",
     });
   }
+  generateToken(user._id, res);
   res.json({
     user,
     message: "Logged in successfully",
