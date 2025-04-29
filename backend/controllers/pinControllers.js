@@ -52,3 +52,37 @@ export const commentOnPin = TryCatch(async (req, res) => {
     message: "Comment Added",
   });
 });
+
+export const deleteComment = TryCatch(async (req, res) => {
+  const pin = await Pin.findById(req.params.id);
+  if (!pin) {
+    return res.status(400).json({
+      message: "No pins with this id",
+    });
+  }
+  if (!req.query.commentId) {
+    return res.status(400).json({
+      message: "Please give comment id",
+    });
+  }
+  const commentIndex = pin.comments.findIndex(
+    (item) => item._id.toString() === req.query.commentId.toString()
+  );
+  if (commentIndex === -1) {
+    return res.status(400).json({
+      message: "Comment not found",
+    });
+  }
+  const comment = pin.comments[commentIndex];
+  if (comment.user.toString() === req.user._id.toString()) {
+    pin.comments.splice(commentIndex, 1);
+    await pin.save();
+    return res.json({
+      message: "Comment deleted",
+    });
+  } else {
+    return res.status(400).json({
+      message: "You are not the owner of this comment",
+    });
+  }
+});
