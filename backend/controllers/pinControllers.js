@@ -34,3 +34,21 @@ export const getSinglePin = TryCatch(async (req, res) => {
   const pin = await Pin.findById(req.params.id).populate("owner", "-password");
   res.json(pin);
 });
+
+export const commentOnPin = TryCatch(async (req, res) => {
+  const pin = await Pin.findById(req.params.id);
+  if (!pin) {
+    return res.status(400).json({
+      message: "No pins with this id",
+    });
+  }
+  pin.comments.push({
+    user: req.user._id,
+    name: req.user.name,
+    comment: req.body.comment,
+  });
+  await pin.save();
+  res.json({
+    message: "Comment Added",
+  });
+});
