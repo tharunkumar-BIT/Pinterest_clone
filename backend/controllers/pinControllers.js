@@ -24,3 +24,13 @@ export const createPin = TryCatch(async (req, res) => {
     message: "Pin created",
   });
 });
+
+export const getAllPins = TryCatch(async (req, res) => {
+  const pins = await Pin.find().sort({ createdAt: -1 });
+  res.json(pins);
+});
+
+export const getSinglePin = TryCatch(async (req, res) => {
+  const pin = await Pin.findById(req.params.id).populate("owner", "-password");
+  res.json(pin);
+});
