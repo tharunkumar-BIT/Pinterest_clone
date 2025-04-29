@@ -105,3 +105,23 @@ export const deletePin = TryCatch(async (req, res) => {
     message: "Pin deleted",
   });
 });
+
+export const updatePin = TryCatch(async (req, res) => {
+  const pin = await Pin.findById(req.params.id);
+  if (!pin) {
+    return res.status(400).json({
+      message: "No pins with this id",
+    });
+  }
+  if (pin.owner.toString() !== req.user._id.toString()) {
+    return res.status(403).json({
+      message: "Unauthorized",
+    });
+  }
+  pin.title = req.body.title;
+  pin.pin = req.body.pin;
+  await pin.save();
+  res.json({
+    message: "Pin updated",
+  });
+});
