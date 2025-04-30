@@ -4,3 +4,4 @@ cookie-parser : required for taking the token from the cookies.
 jsonwebtoken : for generating a token with a validity.
 multer: When a user submits a form that includes a file (like an image, PDF, or video), the browser sends the data as multipart/form-data.
         multer parses that form, extracts the file, and makes it accessible in your backend code. It is a middleware.
+proxy: add proxy(acts as a intermediate server) to vite.config.js

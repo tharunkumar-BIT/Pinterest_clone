@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const submitHandler = (e) => {
+    e.preventDefault();
+    console.log(email, password);
+  };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
@@ -15,7 +21,7 @@ const Login = () => {
         <h2 className="text-2xl font-semibold text-center mb-6">
           Login to see more
         </h2>
-        <form>
+        <form onSubmit={submitHandler}>
           <div className="mb-4">
             <label
               htmlFor="email"
@@ -23,7 +29,14 @@ const Login = () => {
             >
               Email
             </label>
-            <input type="email" id="email" className="common-input" />
+            <input
+              type="email"
+              id="email"
+              className="common-input"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </div>
           <div className="mb-4">
             <label
@@ -32,7 +45,14 @@ const Login = () => {
             >
               Password
             </label>
-            <input type="password" id="password" className="common-input" />
+            <input
+              type="password"
+              id="password"
+              className="common-input"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
           </div>
           <button type="submit" className="common-btn">
             Log in
