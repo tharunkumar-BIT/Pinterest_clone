@@ -75,7 +75,7 @@ const Login = () => {
           </div>
           <div className="mt-4 text-center text-sm">
             <span>
-              Not on Pinterest yet?{" "}
+              Not on Pinterest yet?
               <Link
                 to="/register"
                 className="font-medium text-pinterest hover:underline"
