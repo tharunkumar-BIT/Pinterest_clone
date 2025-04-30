@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserData } from "../context/userContext";
+import { LoadingAnimation } from "../components/Loading";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const {loginUser, btnLoading} = UserData()
-  const navigate = useNavigate()
+  const { loginUser, btnLoading } = UserData();
+  const navigate = useNavigate();
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -59,8 +60,8 @@ const Login = () => {
               required
             />
           </div>
-          <button type="submit" className="common-btn">
-            Log in
+          <button type="submit" className="common-btn" disabled={btnLoading}>
+            {btnLoading ? <LoadingAnimation /> : "Log in"}
           </button>
         </form>
         <div className="mt-6 text-center">
