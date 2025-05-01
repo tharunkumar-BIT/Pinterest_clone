@@ -5,6 +5,7 @@ const PinContext = createContext();
 export const PinProvider = ({ children }) => {
   const [pins, setPins] = useState([]);
   const [loading, setLoading] = useState(true);
+
   async function fetchPins() {
     try {
       const { data } = await axios.get("/api/pin/all");
@@ -15,11 +16,25 @@ export const PinProvider = ({ children }) => {
       setLoading(false);
     }
   }
+
+  const [pin, setPin] = useState([]);
+  async function fetchPin(id) {
+    setLoading(true);
+    try {
+      const { data } = await axios.get("/api/pin/" + id);
+      setPin(data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     fetchPins();
   }, []);
   return (
-    <PinContext.Provider value={{ pins, loading }}>
+    <PinContext.Provider value={{ pins, loading, fetchPin, pin }}>
       {children}
     </PinContext.Provider>
   );
