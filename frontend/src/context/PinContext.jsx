@@ -7,7 +7,7 @@ export const PinProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   async function fetchPins() {
     try {
-      const { data } = axios.get("/api/pin/all");
+      const { data } = await axios.get("/api/pin/all");
       setPins(data);
       setLoading(false);
     } catch (error) {
