@@ -17,7 +17,7 @@ export const PinProvider = ({ children }) => {
     }
   }
 
-  const [pin, setPin] = useState([]);
+  const [pin, setPin] = useState(null);
   async function fetchPin(id) {
     setLoading(true);
     try {

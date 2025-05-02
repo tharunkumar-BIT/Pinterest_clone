@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { PinData } from "../context/PinContext";
 import { Loading } from "../components/Loading";
+import { MdDelete } from "react-icons/md";
 
-const PinPage = () => {
+const PinPage = ({ user }) => {
   const params = useParams();
   const { loading, fetchPin, pin } = PinData();
   console.log(pin);
@@ -19,11 +20,41 @@ const PinPage = () => {
           ) : (
             <div className="bg-white rounded-lg shadow-lg flex flex-wrap w-full max-w-4xl">
               <div className="w-full md:w-1/2 bg-gray-200 rounded-t-lg md:rounded-l-lg md:rounded-t-none flex items-center justify-center">
-                <img
-                  src={pin.image.url}
-                  alt=""
-                  className="object-cover w-full rounded-t-lg md:rounded-l-lg md:rounded-t-none"
-                />
+                {pin.image && (
+                  <img
+                    src={pin.image.url}
+                    alt=""
+                    className="object-cover w-full rounded-t-lg md:rounded-l-lg md:rounded-t-none"
+                  />
+                )}
+              </div>
+              <div className="w-full md:w-1/2 p-6 flex flex-col">
+                <div className="flex items-center justify-between mb-4 gap-3">
+                  <h1 className="text-2xl font-bold">{pin.title}</h1>
+                  {pin.owner && pin.owner._id === user._id && (
+                    <button className="bg-red-500 text-white py-1 px-3 rounded">
+                      <MdDelete />
+                    </button>
+                  )}
+                </div>
+                <p className="mb-6">{pin.pin}</p>
+                {pin.owner && (
+                  <div className="flex items-center justify-between border-b pb-4 mb-4">
+                    <div className="flex items-center">
+                      <Link to={`/user/${pin.owner._id}`}>
+                        <div className="rounded-full h-12 w-12 bg-gray-300 flex items-center justify-center">
+                          <span className="font-bold">
+                            {pin.owner.name.slice(0, 1)}
+                          </span>
+                        </div>
+                      </Link>
+                      <div className="ml-4">
+                        <h2 className="text-lg font-semibold">{pin.owner.name}</h2>
+                        <p className="text-gray-500">{pin.owner.followers.length} Followers</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
