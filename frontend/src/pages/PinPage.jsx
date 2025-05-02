@@ -49,12 +49,32 @@ const PinPage = ({ user }) => {
                         </div>
                       </Link>
                       <div className="ml-4">
-                        <h2 className="text-lg font-semibold">{pin.owner.name}</h2>
-                        <p className="text-gray-500">{pin.owner.followers.length} Followers</p>
+                        <h2 className="text-lg font-semibold">
+                          {pin.owner.name}
+                        </h2>
+                        <p className="text-gray-500">
+                          {pin.owner.followers.length} Followers
+                        </p>
                       </div>
                     </div>
                   </div>
                 )}
+                <div className="flex items-center mt-4">
+                  <div className="rounded-full h-12 w-12 bg-gray-300 flex items-center justify-center mr-4">
+                    <span className="font-bold">
+                      {pin.owner && pin.owner.name.slice(0, 1)}
+                    </span>
+                  </div>
+                  <form className="flex-1 flex">
+                    <input
+                      type="text"
+                      placeholder="Enter Comment"
+                      className="flex-1 border rounded-lg p-2"
+                      required
+                    />
+                    <button type="submit" className="ml-2 bg-red-500 px-4 py-2 rounded-md text-white">Add+</button>
+                  </form>
+                </div>
               </div>
             </div>
           )}
