@@ -1,13 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { PinData } from "../context/PinContext";
 import { Loading } from "../components/Loading";
 import { MdDelete } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
 
 const PinPage = ({ user }) => {
   const params = useParams();
   const { loading, fetchPin, pin } = PinData();
-  console.log(pin);
+  const [edit, setEdit] = useState(false);
+  const [title, setTitle] = useState("");
+  const [pinValue, setPinValue] = useState("");
+  const editHandler = () => {
+    setTitle(pin.title);
+    setPinValue(pin.pin);
+    setEdit(!edit);
+  };
   useEffect(() => {
     fetchPin(params.id);
   }, [params.id]);
@@ -30,14 +38,39 @@ const PinPage = ({ user }) => {
               </div>
               <div className="w-full md:w-1/2 p-6 flex flex-col">
                 <div className="flex items-center justify-between mb-4 gap-3">
-                  <h1 className="text-2xl font-bold">{pin.title}</h1>
+                  {edit ? (
+                    <input
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      className="common-input"
+                      style={{ width: "200px" }}
+                      placeholder="Enter title"
+                    />
+                  ) : (
+                    <h1 className="text-2xl font-bold">{pin.title}</h1>
+                  )}
+                  {pin.owner && pin.owner._id === user._id && (
+                    <button onClick={editHandler}>
+                      <FaEdit />
+                    </button>
+                  )}
                   {pin.owner && pin.owner._id === user._id && (
                     <button className="bg-red-500 text-white py-1 px-3 rounded">
                       <MdDelete />
                     </button>
                   )}
                 </div>
-                <p className="mb-6">{pin.pin}</p>
+                {edit ? (
+                  <input
+                    value={pinValue}
+                    onChange={(e) => setPinValue(e.target.value)}
+                    className="common-input"
+                    style={{ width: "200px" }}
+                    placeholder="Enter Description"
+                  />
+                ) : (
+                  <p className="mb-6">{pin.pin}</p>
+                )}
                 {pin.owner && (
                   <div className="flex items-center justify-between border-b pb-4 mb-4">
                     <div className="flex items-center">
@@ -72,7 +105,12 @@ const PinPage = ({ user }) => {
                       className="flex-1 border rounded-lg p-2"
                       required
                     />
-                    <button type="submit" className="ml-2 bg-red-500 px-4 py-2 rounded-md text-white">Add+</button>
+                    <button
+                      type="submit"
+                      className="ml-2 bg-red-500 px-4 py-2 rounded-md text-white"
+                    >
+                      Add+
+                    </button>
                   </form>
                 </div>
               </div>
