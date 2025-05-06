@@ -53,12 +53,32 @@ export const PinProvider = ({ children }) => {
     }
   }
 
+  async function deleteComment(id, commentId) {
+    try {
+      const { data } = await axios.delete(
+        `/api/pin/comment/${id}?commentId=${commentId}`
+      );
+      toast.success(data.message);
+      fetchPin(id);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  }
+
   useEffect(() => {
     fetchPins();
   }, []);
   return (
     <PinContext.Provider
-      value={{ pins, loading, fetchPin, pin, updatePin, addComment }}
+      value={{
+        pins,
+        loading,
+        fetchPin,
+        pin,
+        updatePin,
+        addComment,
+        deleteComment,
+      }}
     >
       {children}
     </PinContext.Provider>

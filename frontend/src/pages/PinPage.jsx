@@ -7,7 +7,8 @@ import { FaEdit } from "react-icons/fa";
 
 const PinPage = ({ user }) => {
   const params = useParams();
-  const { loading, fetchPin, pin, updatePin, addComment } = PinData();
+  const { loading, fetchPin, pin, updatePin, addComment, deleteComment } =
+    PinData();
   const [edit, setEdit] = useState(false);
   const [title, setTitle] = useState("");
   const [pinValue, setPinValue] = useState("");
@@ -23,6 +24,9 @@ const PinPage = ({ user }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     addComment(pin._id, comment, setComment);
+  };
+  const deleteCommentHandler = (id) => {
+    deleteComment(pin._id, id)
   };
   useEffect(() => {
     fetchPin(params.id);
@@ -137,7 +141,10 @@ const PinPage = ({ user }) => {
                   {pin.comments && pin.comments.length > 0 ? (
                     pin.comments.map((e, i) => (
                       <div className="flex items-center justify-between mb-4">
-                        <div key={i} className="flex items-start mb-4 justify-center gap-3">
+                        <div
+                          key={i}
+                          className="flex items-start mb-4 justify-center gap-3"
+                        >
                           <Link to={`/user/${e.user}`}>
                             <div className="rounded-full h-12 w-12 bg-gray-300 flex items-center justify-center">
                               <span className="font-bold">
@@ -150,7 +157,10 @@ const PinPage = ({ user }) => {
                             <p className="text-gray-500">{e.comment}</p>
                           </div>
                           {e.user === user._id && (
-                            <button className="bg-red-500 text-white py-1 px-3 rounded">
+                            <button
+                              onClick={() => deleteCommentHandler(e._id)}
+                              className="bg-red-500 text-white py-1 px-3 rounded"
+                            >
                               <MdDelete />
                             </button>
                           )}
