@@ -7,7 +7,7 @@ import { FaEdit } from "react-icons/fa";
 
 const PinPage = ({ user }) => {
   const params = useParams();
-  const { loading, fetchPin, pin, updatePin } = PinData();
+  const { loading, fetchPin, pin, updatePin, addComment } = PinData();
   const [edit, setEdit] = useState(false);
   const [title, setTitle] = useState("");
   const [pinValue, setPinValue] = useState("");
@@ -18,6 +18,11 @@ const PinPage = ({ user }) => {
   };
   const updateHandler = () => {
     updatePin(pin._id, title, pinValue, setEdit);
+  };
+  const [comment, setComment] = useState("");
+  const submitHandler = (e) => {
+    e.preventDefault();
+    addComment(pin._id, comment, setComment);
   };
   useEffect(() => {
     fetchPin(params.id);
@@ -110,11 +115,13 @@ const PinPage = ({ user }) => {
                       {pin.owner && pin.owner.name.slice(0, 1)}
                     </span>
                   </div>
-                  <form className="flex-1 flex">
+                  <form className="flex-1 flex" onSubmit={submitHandler}>
                     <input
                       type="text"
                       placeholder="Enter Comment"
                       className="flex-1 border rounded-lg p-2"
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
                       required
                     />
                     <button

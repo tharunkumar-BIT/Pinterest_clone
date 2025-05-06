@@ -42,11 +42,24 @@ export const PinProvider = ({ children }) => {
     }
   }
 
+  async function addComment(id, comment, setComment) {
+    try {
+      const { data } = await axios.post("/api/pin/comment/" + id, { comment });
+      toast.success(data.message);
+      fetchPin(id);
+      setComment("");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  }
+
   useEffect(() => {
     fetchPins();
   }, []);
   return (
-    <PinContext.Provider value={{ pins, loading, fetchPin, pin, updatePin }}>
+    <PinContext.Provider
+      value={{ pins, loading, fetchPin, pin, updatePin, addComment }}
+    >
       {children}
     </PinContext.Provider>
   );
