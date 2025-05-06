@@ -132,6 +132,35 @@ const PinPage = ({ user }) => {
                     </button>
                   </form>
                 </div>
+                <hr className="font-bold text-gray-400 mt-3 mb-3" />
+                <div className="overflow-y-auto h-64">
+                  {pin.comments && pin.comments.length > 0 ? (
+                    pin.comments.map((e, i) => (
+                      <div className="flex items-center justify-between mb-4">
+                        <div key={i} className="flex items-start mb-4 justify-center gap-3">
+                          <Link to={`/user/${e.user}`}>
+                            <div className="rounded-full h-12 w-12 bg-gray-300 flex items-center justify-center">
+                              <span className="font-bold">
+                                {e.name.slice(0, 1)}
+                              </span>
+                            </div>
+                          </Link>
+                          <div>
+                            <h2 className="text-lg font-semibold">{e.name}</h2>
+                            <p className="text-gray-500">{e.comment}</p>
+                          </div>
+                          {e.user === user._id && (
+                            <button className="bg-red-500 text-white py-1 px-3 rounded">
+                              <MdDelete />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p>Be the first to add Comment</p>
+                  )}
+                </div>
               </div>
             </div>
           )}
