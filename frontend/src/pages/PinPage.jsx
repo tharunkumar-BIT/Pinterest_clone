@@ -7,7 +7,7 @@ import { FaEdit } from "react-icons/fa";
 
 const PinPage = ({ user }) => {
   const params = useParams();
-  const { loading, fetchPin, pin } = PinData();
+  const { loading, fetchPin, pin, updatePin } = PinData();
   const [edit, setEdit] = useState(false);
   const [title, setTitle] = useState("");
   const [pinValue, setPinValue] = useState("");
@@ -15,6 +15,9 @@ const PinPage = ({ user }) => {
     setTitle(pin.title);
     setPinValue(pin.pin);
     setEdit(!edit);
+  };
+  const updateHandler = () => {
+    updatePin(pin._id, title, pinValue, setEdit);
   };
   useEffect(() => {
     fetchPin(params.id);
@@ -70,6 +73,15 @@ const PinPage = ({ user }) => {
                   />
                 ) : (
                   <p className="mb-6">{pin.pin}</p>
+                )}
+                {edit && (
+                  <button
+                    style={{ width: "200px" }}
+                    className="bg-red-500 text-white px-1 py-3 mt-2 mb-2"
+                    onClick={updateHandler}
+                  >
+                    Update
+                  </button>
                 )}
                 {pin.owner && (
                   <div className="flex items-center justify-between border-b pb-4 mb-4">

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useState, useEffect } from "react";
+import toast from "react-hot-toast";
 const PinContext = createContext();
 
 export const PinProvider = ({ children }) => {
@@ -30,11 +31,22 @@ export const PinProvider = ({ children }) => {
     }
   }
 
+  async function updatePin(id, title, pin, setEdit) {
+    try {
+      const { data } = await axios.put("/api/pin/" + id, { title, pin });
+      toast.success(data.message);
+      fetchPin(id);
+      setEdit(false);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  }
+
   useEffect(() => {
     fetchPins();
   }, []);
   return (
-    <PinContext.Provider value={{ pins, loading, fetchPin, pin }}>
+    <PinContext.Provider value={{ pins, loading, fetchPin, pin, updatePin }}>
       {children}
     </PinContext.Provider>
   );
