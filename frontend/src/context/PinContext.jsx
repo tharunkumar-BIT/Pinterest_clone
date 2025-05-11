@@ -65,6 +65,20 @@ export const PinProvider = ({ children }) => {
     }
   }
 
+  async function deletePin(id, navigate) {
+    setLoading(true);
+    try {
+      const { data } = await axios.delete(`/api/pin/${id}`);
+      toast.success(data.message);
+      navigate("/");
+      setLoading(false);
+      fetchPins();
+    } catch (error) {
+      toast.error(error.response.data.message);
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     fetchPins();
   }, []);
@@ -78,6 +92,7 @@ export const PinProvider = ({ children }) => {
         updatePin,
         addComment,
         deleteComment,
+        deletePin,
       }}
     >
       {children}
