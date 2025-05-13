@@ -9,6 +9,8 @@ const Create = () => {
 
   const [file, setFile] = useState("");
   const [filePrev, setFilePrev] = useState("");
+  const [title, setTitle] = useState("");
+  const [pin, setPin] = useState("");
   const changeFileHandler = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -44,6 +46,28 @@ const Create = () => {
             <p className="mt-4 text-sm text-gray-400">
               We recommend using high quality .jpg files but less than 10mb
             </p>
+          </div>
+        </div>
+        <div>
+          <div className="flex items-center justify-center bg-gray-100">
+            <form>
+              <div className="mb-4">
+                <label
+                  htmlFor="title"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Title
+                </label>
+                <input
+                  type="text"
+                  id="title"
+                  className="common-input"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  required
+                />
+              </div>
+            </form>
           </div>
         </div>
       </div>
