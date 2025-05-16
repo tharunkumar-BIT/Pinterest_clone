@@ -1,5 +1,7 @@
 import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
+import { PinData } from "../context/PinContext";
 
 const Create = () => {
   const inputRef = useRef(null);
@@ -11,6 +13,8 @@ const Create = () => {
   const [filePrev, setFilePrev] = useState("");
   const [title, setTitle] = useState("");
   const [pin, setPin] = useState("");
+  const { addPin } = PinData();
+
   const changeFileHandler = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -20,6 +24,18 @@ const Create = () => {
       setFilePrev(reader.result);
       setFile(file);
     };
+  };
+
+  const navigate = useNavigate();
+
+  const addPinHandler = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("pin", pin);
+    formData.append("file", file);
+
+    addPin(formData, setFilePrev, setFile, setTitle, setPin, navigate);
   };
   return (
     <div>
@@ -50,7 +66,10 @@ const Create = () => {
         </div>
         <div>
           <div className="flex items-center justify-center bg-gray-100">
-            <form>
+            <form
+              className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg"
+              onSubmit={addPinHandler}
+            >
               <div className="mb-4">
                 <label
                   htmlFor="title"
@@ -67,6 +86,23 @@ const Create = () => {
                   required
                 />
               </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="pin"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Pin
+                </label>
+                <input
+                  type="text"
+                  id="pin"
+                  className="common-input"
+                  value={pin}
+                  onChange={(e) => setPin(e.target.value)}
+                  required
+                />
+              </div>
+              <button className="common-btn">Add+</button>
             </form>
           </div>
         </div>

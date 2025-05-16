@@ -79,6 +79,28 @@ export const PinProvider = ({ children }) => {
     }
   }
 
+  async function addPin(
+    formData,
+    setFilePrev,
+    setFile,
+    setTitle,
+    setPin,
+    navigate
+  ) {
+    try {
+      const { data } = await axios.post("/api/pin/new", formData);
+      toast.success(data.message);
+      setFile([]);
+      setFilePrev("");
+      setPin("");
+      setTitle("");
+      fetchPins();
+      navigate("/");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  }
+
   useEffect(() => {
     fetchPins();
   }, []);
@@ -93,6 +115,7 @@ export const PinProvider = ({ children }) => {
         addComment,
         deleteComment,
         deletePin,
+        addPin,
       }}
     >
       {children}
