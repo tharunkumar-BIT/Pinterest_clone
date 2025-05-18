@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserData } from "../context/userContext";
+import { UserData } from "../context/UserContext";
 import { LoadingAnimation } from "../components/Loading";
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
 
-  const { registerUser , btnLoading } = UserData();
+  const { registerUser, btnLoading } = UserData();
   const navigate = useNavigate();
+
+  const { fetchPins } = PinData();
 
   const submitHandler = (e) => {
     e.preventDefault();
-    registerUser(name, email, password, navigate);
+    registerUser(name, email, password, navigate, fetchPins);
   };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

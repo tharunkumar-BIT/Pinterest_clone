@@ -1,9 +1,25 @@
 import React from "react";
 import { PinData } from "../context/PinContext";
 import PinCard from "../components/PinCard";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { UserData } from "../context/UserContext";
 
 const Account = ({ user }) => {
-  const logoutHandler = () => {};
+  const navigate = useNavigate();
+  const { setIsAuth, setUser } = UserData();
+  const logoutHandler = async () => {
+    try {
+      const { data } = await axios.get("/api/user/logout");
+      toast.success(data.message);
+      navigate("/login");
+      setIsAuth(false);
+      setUser([]);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
 
   const { pins } = PinData();
   let userPins;

@@ -116,6 +116,7 @@ export const PinProvider = ({ children }) => {
         deleteComment,
         deletePin,
         addPin,
+        fetchPins,
       }}
     >
       {children}

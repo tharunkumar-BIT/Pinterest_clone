@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserData } from "../context/userContext";
+import { UserData } from "../context/UserContext";
 import { LoadingAnimation } from "../components/Loading";
+import { PinData } from "../context/PinContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,9 +11,11 @@ const Login = () => {
   const { loginUser, btnLoading } = UserData();
   const navigate = useNavigate();
 
+  const { fetchPins } = PinData();
+
   const submitHandler = (e) => {
     e.preventDefault();
-    loginUser(email, password, navigate);
+    loginUser(email, password, navigate, fetchPins);
   };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
