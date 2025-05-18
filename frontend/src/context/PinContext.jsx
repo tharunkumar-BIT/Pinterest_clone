@@ -1,6 +1,7 @@
 import axios from "axios";
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+
 const PinContext = createContext();
 
 export const PinProvider = ({ children }) => {
@@ -10,6 +11,7 @@ export const PinProvider = ({ children }) => {
   async function fetchPins() {
     try {
       const { data } = await axios.get("/api/pin/all");
+
       setPins(data);
       setLoading(false);
     } catch (error) {
@@ -18,11 +20,13 @@ export const PinProvider = ({ children }) => {
     }
   }
 
-  const [pin, setPin] = useState(null);
+  const [pin, setPin] = useState([]);
+
   async function fetchPin(id) {
     setLoading(true);
     try {
       const { data } = await axios.get("/api/pin/" + id);
+
       setPin(data);
       setLoading(false);
     } catch (error) {
@@ -89,6 +93,7 @@ export const PinProvider = ({ children }) => {
   ) {
     try {
       const { data } = await axios.post("/api/pin/new", formData);
+
       toast.success(data.message);
       setFile([]);
       setFilePrev("");

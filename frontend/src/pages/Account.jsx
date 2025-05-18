@@ -40,6 +40,10 @@ const Account = ({ user }) => {
 
           <h1 className="text-center text-2xl font-bold mt-4">{user.name}</h1>
           <p className=" text-center text-gray-600 mt-2">{user.email}</p>
+          <div className="flex justify-center items-center text-center gap-3 text-gray-600 mt-2">
+            <p>{user.followers?.length} Followers</p>
+            <p>{user.following?.length} Followings</p>
+          </div>
           <div className="flex justify-center mt-4 space-x-2">
             <button
               onClick={logoutHandler}
