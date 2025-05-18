@@ -31,12 +31,12 @@ app.use("/api/user", userRoutes);
 app.use("/api/pin", pinRoutes);
 
 // Static frontend in production
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "/frontend/dist")));
-  app.get('/:path(*)', (req, res) => {
-    res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
-  });
-}
+// if (process.env.NODE_ENV === "production") {
+app.use(express.static(path.join(__dirname, "/frontend/dist")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+});
+// }
 
 // Start server after DB connects
 connectDb().then(() => {
