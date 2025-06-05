@@ -1,8 +1,8 @@
-import mangoos from 'mongoose'
+import mangoose from 'mongoose'
 
 const connectdb = async() => {
     try{
-        await mangoos.connect(process.env.MONGO_URL, {
+        await mangoose.connect(process.env.MONGO_URL, {
             dbName: "pinterest"
         });
         console.log("Database Connected");
