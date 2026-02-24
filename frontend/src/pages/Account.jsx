@@ -21,6 +21,11 @@ const Account = ({ user }) => {
     }
   };
 
+  const skills = [
+    { name: "Python", progress: 60 },
+    { name: "Django", progress: 60 },
+  ];
+
   const { pins } = PinData();
   let userPins;
   if (pins) {
@@ -51,6 +56,25 @@ const Account = ({ user }) => {
             >
               Logout
             </button>
+          </div>
+
+          <div className="mt-6 px-4 max-w-md mx-auto">
+            <h2 className="text-xl font-semibold mb-3">Skills</h2>
+            {skills.map((skill) => (
+                <div key={skill.name} className="mb-4">
+                  <div className="flex justify-between mb-1">
+                    <span className="font-medium">{skill.name}</span>
+                    <span>{skill.progress}%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-3">
+                    <div
+                      className="bg-red-500 h-3 rounded-full"
+                      style={{ width: `${skill.progress}%` }}
+                    ></div>
+                  </div>
+                </div>
+              )
+            )}
           </div>
 
           <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 mt-5 px-4 space-y-4">
